@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>POS · Green Mart receipt · LKR</title>
+  <title>POS · Green Mart · Template Data</title>
   <!-- html2pdf library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
@@ -39,8 +39,8 @@
     }
 
     .receipt {
-      font-size: 11px;
-      line-height: 1.35;
+      font-size: 9.5px;
+      line-height: 1.3;
       letter-spacing: 0.02em;
       color: #1e1e1e;
     }
@@ -81,7 +81,7 @@
     .receipt .meta-info {
       display: flex;
       justify-content: space-between;
-      font-size: 10px;
+      font-size: 9px;
       border-bottom: 1px dotted #b6aaa0;
       padding-bottom: 4px;
       margin-bottom: 6px;
@@ -91,7 +91,7 @@
     .receipt-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 10.5px;
+      font-size: 8.5px;
       margin-bottom: 4px;
     }
 
@@ -99,8 +99,8 @@
       text-align: left;
       font-weight: 600;
       text-transform: uppercase;
-      font-size: 9px;
-      letter-spacing: 0.5px;
+      font-size: 7.5px;
+      letter-spacing: 0.3px;
       border-bottom: 1px solid #5f554b;
       padding-bottom: 3px;
       color: #1f1f1f;
@@ -116,16 +116,18 @@
       border-bottom: none;
     }
 
-    .col-item { width: 38%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 38%; }
-    .col-qty { width: 15%; text-align: center; }
-    .col-price { width: 20%; text-align: right; padding-right: 6px; }
-    .col-total { width: 27%; text-align: right; padding-right: 2px; }
+    .col-code { width: 12%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 12%; }
+    .col-item { width: 28%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 28%; }
+    .col-qty { width: 10%; text-align: center; }
+    .col-market { width: 15%; text-align: right; padding-right: 3px; }
+    .col-our { width: 15%; text-align: right; padding-right: 3px; }
+    .col-total { width: 20%; text-align: right; padding-right: 2px; }
 
     .totals-section {
       margin-top: 8px;
       border-top: 1px dashed #8a8078;
       padding-top: 6px;
-      font-size: 10.5px;
+      font-size: 9.5px;
     }
 
     .totals-line {
@@ -140,12 +142,14 @@
       padding-right: 16px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
+      font-size: 9.5px;
     }
 
     .totals-line .value {
       width: 30%;
       text-align: right;
       font-weight: 500;
+      font-size: 9.5px;
     }
 
     .totals-line.discount .value { color: #2a5c3a; }
@@ -155,7 +159,7 @@
       margin-top: 4px;
       padding-top: 6px;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 12px;
       display: flex;
       justify-content: flex-end;
       letter-spacing: 0.5px;
@@ -164,9 +168,25 @@
     .grand-total .label {
       text-transform: uppercase;
       margin-right: 16px;
+      font-size: 12px;
     }
 
     .grand-total .value { font-weight: 800; }
+
+    .savings-section {
+      margin-top: 4px;
+      border-top: 1px dotted #b6aaa0;
+      padding-top: 4px;
+      display: flex;
+      justify-content: flex-end;
+      font-size: 9px;
+      color: #2a5c3a;
+    }
+
+    .savings-section .label {
+      margin-right: 16px;
+      text-transform: uppercase;
+    }
 
     .footer-message {
       text-align: center;
@@ -185,17 +205,14 @@
       margin-top: 2px;
     }
 
-    .receipt .faded { opacity: 0.82; }
-    .divider-dash { border-top: 1px dashed #b6aaa0; margin: 3px 0; }
-
     /* ---- CONTROL PANEL (POS) ---- */
     .pos-panel {
       background: #f0ebe4;
       padding: 24px 28px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      min-width: 340px;
-      max-width: 440px;
+      min-width: 380px;
+      max-width: 480px;
       border: 1px solid #d6cdc2;
     }
 
@@ -230,18 +247,18 @@
       font-family: 'Courier New', monospace;
     }
 
-    .pos-panel .row-2 {
+    .pos-panel .row-3 {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .pos-panel .row-2 > div {
+    .pos-panel .row-3 > div {
       flex: 1;
     }
 
     .pos-actions {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       margin-top: 18px;
       flex-wrap: wrap;
     }
@@ -249,7 +266,7 @@
     .pos-actions button {
       flex: 1;
       padding: 10px 0;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
       border: none;
@@ -261,6 +278,7 @@
       transition: 0.15s;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       font-family: 'Courier New', monospace;
+      min-width: 80px;
     }
 
     .pos-actions button:hover {
@@ -289,15 +307,17 @@
       background: #e6dfd7;
       padding: 8px 12px;
       border-radius: 8px;
+      max-height: 180px;
+      overflow-y: auto;
     }
 
     .pos-panel .preset-list span {
       display: inline-block;
       background: #fffcf7;
-      padding: 4px 12px;
-      margin: 4px 4px 4px 0;
+      padding: 3px 10px;
+      margin: 3px 3px 3px 0;
       border-radius: 30px;
-      font-size: 11px;
+      font-size: 9px;
       cursor: pointer;
       border: 1px solid #b6aaa0;
       transition: 0.1s;
@@ -308,14 +328,14 @@
       border-color: #5f554b;
     }
 
-    .pos-panel .item-count-badge {
+    .currency-badge {
       background: #1f3a2b;
       color: white;
-      padding: 2px 10px;
+      padding: 2px 12px;
       border-radius: 30px;
       font-size: 11px;
       display: inline-block;
-      margin-left: 6px;
+      margin-left: 8px;
     }
 
     .small-note {
@@ -333,42 +353,19 @@
       margin-bottom: 6px;
     }
 
-    .currency-badge {
-      background: #1f3a2b;
+    .savings-badge {
+      background: #2a5c3a;
       color: white;
-      padding: 2px 12px;
+      padding: 2px 10px;
       border-radius: 30px;
-      font-size: 11px;
+      font-size: 10px;
       display: inline-block;
       margin-left: 8px;
     }
 
-    /* PDF download button highlight */
-    .pdf-download-row {
-      margin-top: 12px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .pdf-download-row button {
-      flex: 1;
-      background: #1f3a2b;
-      color: white;
-      border: none;
-      padding: 12px 0;
-      border-radius: 40px;
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: 0.15s;
-      font-family: 'Courier New', monospace;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-
-    .pdf-download-row button:hover {
-      background: #2d5a41;
-      transform: scale(0.97);
+    .highlight-save {
+      color: #2a5c3a;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -395,9 +392,11 @@
       <table class="receipt-table" id="receiptTable">
         <thead>
           <tr>
+            <th class="col-code">Code</th>
             <th class="col-item">Item</th>
             <th class="col-qty">Qty</th>
-            <th class="col-price">Price (LKR)</th>
+            <th class="col-market">Market (LKR)</th>
+            <th class="col-our">Our (LKR)</th>
             <th class="col-total">Total (LKR)</th>
           </tr>
         </thead>
@@ -409,10 +408,18 @@
       <!-- totals -->
       <div class="totals-section" id="totalsSection">
         <div class="totals-line">
-          <span class="label">Subtotal (LKR)</span>
-          <span class="value" id="subtotalDisplay">LKR 0.00</span>
+          <span class="label">Subtotal (Market)</span>
+          <span class="value" id="marketSubtotal">LKR 0.00</span>
+        </div>
+        <div class="totals-line">
+          <span class="label">Subtotal (Our Price)</span>
+          <span class="value" id="ourSubtotal">LKR 0.00</span>
         </div>
         <div class="totals-line discount">
+          <span class="label">You Save</span>
+          <span class="value" id="youSaveDisplay">LKR 0.00</span>
+        </div>
+        <div class="totals-line">
           <span class="label">Discount (5% off)</span>
           <span class="value" id="discountDisplay">- LKR 0.00</span>
         </div>
@@ -445,20 +452,32 @@
 
   <!-- ===== POS CONTROL PANEL ===== -->
   <div class="pos-panel">
-    <h3>🧾 POS · manual entry <span class="currency-badge">LKR</span></h3>
-    <div class="manual-hint">add items to receipt (Sri Lankan Rupees)</div>
+    <h3>🧾 POS · Template Data <span class="currency-badge">LKR</span></h3>
+    <div class="manual-hint">add items from your template</div>
 
-    <label>Item name</label>
-    <input type="text" id="itemName" placeholder="e.g. Organic Milk" value="Basmati Rice">
+    <div class="row-3">
+      <div>
+        <label>Code</label>
+        <input type="text" id="itemCode" placeholder="e.g. 00431" value="00431">
+      </div>
+      <div style="flex: 2;">
+        <label>Item name</label>
+        <input type="text" id="itemName" placeholder="e.g. White Egg Large" value="WHITE EGG LARGE">
+      </div>
+    </div>
 
-    <div class="row-2">
+    <div class="row-3">
       <div>
         <label>Qty</label>
-        <input type="number" id="itemQty" min="1" value="1" step="1">
+        <input type="number" id="itemQty" min="0.001" step="0.001" value="20.000">
       </div>
       <div>
-        <label>Unit price (LKR)</label>
-        <input type="number" id="itemPrice" min="0.01" step="0.01" value="499.00">
+        <label>Market Price (LKR)</label>
+        <input type="number" id="itemMarketPrice" min="0.01" step="0.01" value="42.00">
+      </div>
+      <div>
+        <label>Our Price (LKR)</label>
+        <input type="number" id="itemOurPrice" min="0.01" step="0.01" value="40.00">
       </div>
     </div>
 
@@ -468,25 +487,26 @@
       <button class="pdf-btn" id="downloadPdfBtn">⬇ PDF</button>
     </div>
 
-    <!-- preset quick add with LKR prices -->
+    <!-- preset quick add from template -->
     <div class="preset-list">
-      <span style="font-weight:600; background:transparent; border:none; cursor:default;">quick add:</span>
-      <span data-name="Basmati Rice (1kg)" data-price="499.00">Rice</span>
-      <span data-name="Organic Milk 1L" data-price="325.00">Milk</span>
-      <span data-name="Cane Sugar 1kg" data-price="289.00">Sugar</span>
-      <span data-name="Wheat Bread" data-price="250.00">Bread</span>
-      <span data-name="Eggs (12)" data-price="420.00">Eggs</span>
-      <span data-name="Mixed Veggies" data-price="530.00">Veggies</span>
-      <span data-name="Potato Chips" data-price="215.00">Chips</span>
-      <span data-name="Dark Chocolate" data-price="310.00">Choc</span>
+      <span style="font-weight:600; background:transparent; border:none; cursor:default;">template items:</span>
+      <span data-code="00431" data-name="WHITE EGG LARGE" data-market="42.00" data-our="40.00" data-qty="20.000">Eggs</span>
+      <span data-code="22199" data-name="DENTAL COMFORT TOOTH BRUSH" data-market="135.00" data-our="126.90" data-qty="3.000">Toothbrush</span>
+      <span data-code="18443" data-name="LIPTON CELONTA TEA 100G" data-market="380.00" data-our="348.18" data-qty="1.000">Tea</span>
+      <span data-code="22539" data-name="FLOUR BULK" data-market="190.00" data-our="175.00" data-qty="3.064">Flour</span>
+      <span data-code="27763" data-name="SUGAR BROWN BULK" data-market="280.00" data-our="265.00" data-qty="4.002">Brown Sugar</span>
+      <span data-code="20977" data-name="CBL MUNCHIE CHOCOLATE PU" data-market="130.00" data-our="121.08" data-qty="1.000">Chocolate</span>
+      <span data-code="27809" data-name="JAGGERY SMALL CUBE" data-market="650.00" data-our="575.00" data-qty="0.252">Jaggery</span>
     </div>
 
     <div style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
       <span style="font-size:11px; font-weight:500;">items: <span id="itemCounter">0</span></span>
       <span style="font-size:11px; color:#5f554b;">|</span>
       <span style="font-size:11px; font-weight:500;">total: <span id="liveTotal">LKR 0.00</span></span>
+      <span style="font-size:11px; color:#5f554b;">|</span>
+      <span style="font-size:11px; font-weight:500; color:#2a5c3a;">save: <span id="liveSave">LKR 0.00</span></span>
     </div>
-    <div class="small-note">* discount 5% · VAT 6% applied automatically</div>
+    <div class="small-note">* discount 5% · VAT 6% applied to Our Price subtotal</div>
   </div>
 
   <script>
@@ -496,12 +516,15 @@
 
       // ---------- DOM refs ----------
       const tbody = document.getElementById('receiptBody');
-      const subtotalSpan = document.getElementById('subtotalDisplay');
+      const marketSubtotalSpan = document.getElementById('marketSubtotal');
+      const ourSubtotalSpan = document.getElementById('ourSubtotal');
+      const youSaveSpan = document.getElementById('youSaveDisplay');
       const discountSpan = document.getElementById('discountDisplay');
       const taxSpan = document.getElementById('taxDisplay');
       const grandSpan = document.getElementById('grandTotalDisplay');
       const itemCounter = document.getElementById('itemCounter');
       const liveTotal = document.getElementById('liveTotal');
+      const liveSave = document.getElementById('liveSave');
 
       const billSpan = document.getElementById('billNumber');
       const dateSpan = document.getElementById('receiptDate');
@@ -510,15 +533,17 @@
       const footerCashier = document.getElementById('footerCashier');
       const footerDate = document.getElementById('footerDate');
 
+      const codeInput = document.getElementById('itemCode');
       const nameInput = document.getElementById('itemName');
       const qtyInput = document.getElementById('itemQty');
-      const priceInput = document.getElementById('itemPrice');
+      const marketPriceInput = document.getElementById('itemMarketPrice');
+      const ourPriceInput = document.getElementById('itemOurPrice');
 
       const addBtn = document.getElementById('addItemBtn');
       const resetBtn = document.getElementById('resetReceiptBtn');
       const downloadBtn = document.getElementById('downloadPdfBtn');
 
-      const presetSpans = document.querySelectorAll('.preset-list span[data-name]');
+      const presetSpans = document.querySelectorAll('.preset-list span[data-code]');
 
       // ---------- helpers ----------
       function formatCurrency(val) {
@@ -530,30 +555,42 @@
         tbody.innerHTML = '';
         items.forEach((item) => {
           const tr = document.createElement('tr');
-          const total = item.qty * item.price;
+          const totalOur = item.qty * item.ourPrice;
           tr.innerHTML = `
+            <td class="col-code">${item.code}</td>
             <td class="col-item">${item.name}</td>
-            <td class="col-qty">${item.qty}</td>
-            <td class="col-price">${formatCurrency(item.price)}</td>
-            <td class="col-total">${formatCurrency(total)}</td>
+            <td class="col-qty">${item.qty.toFixed(3)}</td>
+            <td class="col-market">${formatCurrency(item.marketPrice)}</td>
+            <td class="col-our">${formatCurrency(item.ourPrice)}</td>
+            <td class="col-total">${formatCurrency(totalOur)}</td>
           `;
           tbody.appendChild(tr);
         });
 
-        let subtotal = 0;
-        items.forEach(it => { subtotal += it.qty * it.price; });
-        const discount = subtotal * 0.05;
-        const tax = (subtotal - discount) * 0.06;
-        const grand = subtotal - discount + tax;
+        // Calculate totals
+        let marketSubtotal = 0;
+        let ourSubtotal = 0;
+        items.forEach(it => {
+          marketSubtotal += it.qty * it.marketPrice;
+          ourSubtotal += it.qty * it.ourPrice;
+        });
 
-        subtotalSpan.textContent = formatCurrency(subtotal);
+        const youSave = marketSubtotal - ourSubtotal;
+        const discount = ourSubtotal * 0.05;
+        const tax = (ourSubtotal - discount) * 0.06;
+        const grand = ourSubtotal - discount + tax;
+
+        marketSubtotalSpan.textContent = formatCurrency(marketSubtotal);
+        ourSubtotalSpan.textContent = formatCurrency(ourSubtotal);
+        youSaveSpan.textContent = formatCurrency(youSave);
         discountSpan.textContent = '- ' + formatCurrency(discount);
         taxSpan.textContent = formatCurrency(tax);
         grandSpan.textContent = formatCurrency(grand);
 
         const totalQty = items.reduce((acc, it) => acc + it.qty, 0);
-        itemCounter.textContent = totalQty;
+        itemCounter.textContent = totalQty.toFixed(3);
         liveTotal.textContent = formatCurrency(grand);
+        liveSave.textContent = formatCurrency(youSave);
 
         const bill = billSpan.textContent;
         const cashier = cashierSpan.textContent;
@@ -565,53 +602,63 @@
 
       // ---------- add item ----------
       function addItem() {
+        let code = codeInput.value.trim();
+        if (!code) { code = '00000'; }
         let name = nameInput.value.trim();
         if (!name) { name = 'Item'; }
-        const qty = parseInt(qtyInput.value, 10) || 1;
-        const price = parseFloat(priceInput.value) || 0.00;
+        const qty = parseFloat(qtyInput.value) || 0.001;
+        const marketPrice = parseFloat(marketPriceInput.value) || 0.00;
+        const ourPrice = parseFloat(ourPriceInput.value) || 0.00;
 
-        if (qty <= 0 || price <= 0) {
-          alert('Please enter valid quantity and price (>0)');
+        if (qty <= 0 || marketPrice <= 0 || ourPrice <= 0) {
+          alert('Please enter valid quantity, market price, and our price (>0)');
           return;
         }
 
-        items.push({ name, qty, price });
+        if (ourPrice > marketPrice) {
+          alert('Our Price should be less than or equal to Market Price');
+          return;
+        }
+
+        items.push({ code, name, qty, marketPrice, ourPrice });
         render();
+        codeInput.value = '';
         nameInput.value = '';
-        nameInput.focus();
+        codeInput.focus();
       }
 
       // ---------- reset ----------
       function resetReceipt() {
         items = [];
         render();
-        nameInput.value = 'Rice';
-        qtyInput.value = 1;
-        priceInput.value = 499.00;
-        nameInput.focus();
+        codeInput.value = '00431';
+        nameInput.value = 'WHITE EGG LARGE';
+        qtyInput.value = 20.000;
+        marketPriceInput.value = 42.00;
+        ourPriceInput.value = 40.00;
+        codeInput.focus();
       }
 
       // ---------- preset quick fill ----------
-      function fillPreset(name, price) {
+      function fillPreset(code, name, marketPrice, ourPrice, qty) {
+        codeInput.value = code;
         nameInput.value = name;
-        priceInput.value = price;
-        qtyInput.value = 1;
+        marketPriceInput.value = marketPrice;
+        ourPriceInput.value = ourPrice;
+        qtyInput.value = qty;
         qtyInput.focus();
       }
 
-      // ---------- load sample data with LKR prices ----------
+      // ---------- load sample data from template ----------
       function loadSampleData() {
         items = [
-          { name: 'Basmati Rice (1kg)', qty: 2, price: 499.00 },
-          { name: 'Organic Milk 1L', qty: 3, price: 325.00 },
-          { name: 'Cane Sugar 1kg', qty: 1, price: 289.00 },
-          { name: 'Whole Wheat Bread', qty: 2, price: 250.00 },
-          { name: 'Free-range Eggs (12)', qty: 2, price: 420.00 },
-          { name: 'Mixed Vegetables', qty: 1, price: 530.00 },
-          { name: 'Potato Chips (large)', qty: 3, price: 215.00 },
-          { name: 'Dark Chocolate Bar', qty: 2, price: 310.00 },
-          { name: 'Canned Tomatoes', qty: 4, price: 140.00 },
-          { name: 'Greek Yogurt', qty: 2, price: 275.00 }
+          { code: '00431', name: 'WHITE EGG LARGE', qty: 20.000, marketPrice: 42.00, ourPrice: 40.00 },
+          { code: '22199', name: 'DENTAL COMFORT TOOTH BRUSH', qty: 3.000, marketPrice: 135.00, ourPrice: 126.90 },
+          { code: '18443', name: 'LIPTON CELONTA TEA 100G', qty: 1.000, marketPrice: 380.00, ourPrice: 348.18 },
+          { code: '22539', name: 'FLOUR BULK', qty: 3.064, marketPrice: 190.00, ourPrice: 175.00 },
+          { code: '27763', name: 'SUGAR BROWN BULK', qty: 4.002, marketPrice: 280.00, ourPrice: 265.00 },
+          { code: '20977', name: 'CBL MUNCHIE CHOCOLATE PU', qty: 1.000, marketPrice: 130.00, ourPrice: 121.08 },
+          { code: '27809', name: 'JAGGERY SMALL CUBE', qty: 0.252, marketPrice: 650.00, ourPrice: 575.00 }
         ];
         render();
       }
@@ -621,10 +668,10 @@
         const element = document.getElementById('receiptWrapper');
         const opt = {
           margin:        [0.3, 0.3, 0.3, 0.3],
-          filename:     'GreenMart_receipt_LKR.pdf',
+          filename:     'GreenMart_receipt_template_LKR.pdf',
           image:        { type: 'jpeg', quality: 0.98 },
           html2canvas:  { scale: 2, letterRendering: true, useCORS: true, logging: false },
-          jsPDF:        { unit: 'in', format: [3.15, 8.5], orientation: 'portrait' }
+          jsPDF:        { unit: 'in', format: [3.15, 9.5], orientation: 'portrait' }
         };
         html2pdf().set(opt).from(element).save();
       }
@@ -636,15 +683,18 @@
 
       presetSpans.forEach(span => {
         span.addEventListener('click', function(e) {
+          const code = this.dataset.code;
           const name = this.dataset.name;
-          const price = parseFloat(this.dataset.price);
-          if (name && !isNaN(price)) {
-            fillPreset(name, price);
+          const marketPrice = parseFloat(this.dataset.market);
+          const ourPrice = parseFloat(this.dataset.our);
+          const qty = parseFloat(this.dataset.qty);
+          if (code && name && !isNaN(marketPrice) && !isNaN(ourPrice) && !isNaN(qty)) {
+            fillPreset(code, name, marketPrice, ourPrice, qty);
           }
         });
       });
 
-      [nameInput, qtyInput, priceInput].forEach(input => {
+      [codeInput, nameInput, qtyInput, marketPriceInput, ourPriceInput].forEach(input => {
         input.addEventListener('keydown', function(e) {
           if (e.key === 'Enter') {
             e.preventDefault();
