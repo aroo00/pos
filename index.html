@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>POS · Green Mart receipt</title>
+  <title>POS · Green Mart receipt · LKR</title>
+  <!-- html2pdf library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
     * {
       margin: 0;
@@ -274,6 +276,14 @@
       background: #5f4f42;
     }
 
+    .pos-actions button.pdf-btn {
+      background: #3b5e4b;
+    }
+
+    .pos-actions button.pdf-btn:hover {
+      background: #2d5a41;
+    }
+
     .pos-panel .preset-list {
       margin-top: 16px;
       background: #e6dfd7;
@@ -322,12 +332,50 @@
       display: inline-block;
       margin-bottom: 6px;
     }
+
+    .currency-badge {
+      background: #1f3a2b;
+      color: white;
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-size: 11px;
+      display: inline-block;
+      margin-left: 8px;
+    }
+
+    /* PDF download button highlight */
+    .pdf-download-row {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .pdf-download-row button {
+      flex: 1;
+      background: #1f3a2b;
+      color: white;
+      border: none;
+      padding: 12px 0;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: 0.15s;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .pdf-download-row button:hover {
+      background: #2d5a41;
+      transform: scale(0.97);
+    }
   </style>
 </head>
 <body>
 
   <!-- ===== RECEIPT ===== -->
-  <div class="receipt-wrapper">
+  <div class="receipt-wrapper" id="receiptWrapper">
     <div class="receipt" id="receiptContainer">
       <!-- header -->
       <div class="store-header">
@@ -349,8 +397,8 @@
           <tr>
             <th class="col-item">Item</th>
             <th class="col-qty">Qty</th>
-            <th class="col-price">Price</th>
-            <th class="col-total">Total</th>
+            <th class="col-price">Price (LKR)</th>
+            <th class="col-total">Total (LKR)</th>
           </tr>
         </thead>
         <tbody id="receiptBody">
@@ -361,26 +409,26 @@
       <!-- totals -->
       <div class="totals-section" id="totalsSection">
         <div class="totals-line">
-          <span class="label">Subtotal</span>
-          <span class="value" id="subtotalDisplay">$0.00</span>
+          <span class="label">Subtotal (LKR)</span>
+          <span class="value" id="subtotalDisplay">LKR 0.00</span>
         </div>
         <div class="totals-line discount">
           <span class="label">Discount (5% off)</span>
-          <span class="value" id="discountDisplay">- $0.00</span>
+          <span class="value" id="discountDisplay">- LKR 0.00</span>
         </div>
         <div class="totals-line">
           <span class="label">Tax (VAT 6%)</span>
-          <span class="value" id="taxDisplay">$0.00</span>
+          <span class="value" id="taxDisplay">LKR 0.00</span>
         </div>
         <div class="grand-total">
-          <span class="label">TOTAL</span>
-          <span class="value" id="grandTotalDisplay">$0.00</span>
+          <span class="label">TOTAL (LKR)</span>
+          <span class="value" id="grandTotalDisplay">LKR 0.00</span>
         </div>
       </div>
 
       <div style="display: flex; justify-content: space-between; font-size: 9px; margin-top: 5px; border-top: 1px dotted #b6aaa0; padding-top: 3px; color: #3b3b3b;">
         <span>Payment: VISA **** 4821</span>
-        <span>CHANGE: $0.00</span>
+        <span>CHANGE: LKR 0.00</span>
       </div>
 
       <div class="footer-message">
@@ -397,8 +445,8 @@
 
   <!-- ===== POS CONTROL PANEL ===== -->
   <div class="pos-panel">
-    <h3>🧾 POS · manual entry</h3>
-    <div class="manual-hint">add items to receipt</div>
+    <h3>🧾 POS · manual entry <span class="currency-badge">LKR</span></h3>
+    <div class="manual-hint">add items to receipt (Sri Lankan Rupees)</div>
 
     <label>Item name</label>
     <input type="text" id="itemName" placeholder="e.g. Organic Milk" value="Basmati Rice">
@@ -409,33 +457,34 @@
         <input type="number" id="itemQty" min="1" value="1" step="1">
       </div>
       <div>
-        <label>Unit price ($)</label>
-        <input type="number" id="itemPrice" min="0.01" step="0.01" value="4.99">
+        <label>Unit price (LKR)</label>
+        <input type="number" id="itemPrice" min="0.01" step="0.01" value="499.00">
       </div>
     </div>
 
     <div class="pos-actions">
       <button id="addItemBtn">➕ Add item</button>
       <button class="reset-btn" id="resetReceiptBtn">⟲ Reset</button>
+      <button class="pdf-btn" id="downloadPdfBtn">⬇ PDF</button>
     </div>
 
-    <!-- preset quick add -->
+    <!-- preset quick add with LKR prices -->
     <div class="preset-list">
       <span style="font-weight:600; background:transparent; border:none; cursor:default;">quick add:</span>
-      <span data-name="Basmati Rice" data-price="4.99">Rice</span>
-      <span data-name="Organic Milk 1L" data-price="3.25">Milk</span>
-      <span data-name="Cane Sugar 1kg" data-price="2.89">Sugar</span>
-      <span data-name="Wheat Bread" data-price="2.50">Bread</span>
-      <span data-name="Eggs (12)" data-price="4.20">Eggs</span>
-      <span data-name="Mixed Veggies" data-price="5.30">Veggies</span>
-      <span data-name="Potato Chips" data-price="2.15">Chips</span>
-      <span data-name="Dark Chocolate" data-price="3.10">Choc</span>
+      <span data-name="Basmati Rice (1kg)" data-price="499.00">Rice</span>
+      <span data-name="Organic Milk 1L" data-price="325.00">Milk</span>
+      <span data-name="Cane Sugar 1kg" data-price="289.00">Sugar</span>
+      <span data-name="Wheat Bread" data-price="250.00">Bread</span>
+      <span data-name="Eggs (12)" data-price="420.00">Eggs</span>
+      <span data-name="Mixed Veggies" data-price="530.00">Veggies</span>
+      <span data-name="Potato Chips" data-price="215.00">Chips</span>
+      <span data-name="Dark Chocolate" data-price="310.00">Choc</span>
     </div>
 
     <div style="margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
       <span style="font-size:11px; font-weight:500;">items: <span id="itemCounter">0</span></span>
       <span style="font-size:11px; color:#5f554b;">|</span>
-      <span style="font-size:11px; font-weight:500;">total: <span id="liveTotal">$0.00</span></span>
+      <span style="font-size:11px; font-weight:500;">total: <span id="liveTotal">LKR 0.00</span></span>
     </div>
     <div class="small-note">* discount 5% · VAT 6% applied automatically</div>
   </div>
@@ -454,7 +503,6 @@
       const itemCounter = document.getElementById('itemCounter');
       const liveTotal = document.getElementById('liveTotal');
 
-      // meta fields
       const billSpan = document.getElementById('billNumber');
       const dateSpan = document.getElementById('receiptDate');
       const cashierSpan = document.getElementById('cashierName');
@@ -462,28 +510,25 @@
       const footerCashier = document.getElementById('footerCashier');
       const footerDate = document.getElementById('footerDate');
 
-      // inputs
       const nameInput = document.getElementById('itemName');
       const qtyInput = document.getElementById('itemQty');
       const priceInput = document.getElementById('itemPrice');
 
-      // buttons
       const addBtn = document.getElementById('addItemBtn');
       const resetBtn = document.getElementById('resetReceiptBtn');
+      const downloadBtn = document.getElementById('downloadPdfBtn');
 
-      // preset spans
       const presetSpans = document.querySelectorAll('.preset-list span[data-name]');
 
       // ---------- helpers ----------
       function formatCurrency(val) {
-        return '$' + val.toFixed(2);
+        return 'LKR ' + val.toFixed(2);
       }
 
       // ---------- render receipt ----------
       function render() {
-        // build table rows
         tbody.innerHTML = '';
-        items.forEach((item, idx) => {
+        items.forEach((item) => {
           const tr = document.createElement('tr');
           const total = item.qty * item.price;
           tr.innerHTML = `
@@ -495,7 +540,6 @@
           tbody.appendChild(tr);
         });
 
-        // calculate subtotal
         let subtotal = 0;
         items.forEach(it => { subtotal += it.qty * it.price; });
         const discount = subtotal * 0.05;
@@ -507,12 +551,10 @@
         taxSpan.textContent = formatCurrency(tax);
         grandSpan.textContent = formatCurrency(grand);
 
-        // counters
         const totalQty = items.reduce((acc, it) => acc + it.qty, 0);
         itemCounter.textContent = totalQty;
         liveTotal.textContent = formatCurrency(grand);
 
-        // update footer meta (sync)
         const bill = billSpan.textContent;
         const cashier = cashierSpan.textContent;
         const date = dateSpan.textContent;
@@ -535,7 +577,6 @@
 
         items.push({ name, qty, price });
         render();
-        // clear name but keep focus
         nameInput.value = '';
         nameInput.focus();
       }
@@ -546,7 +587,7 @@
         render();
         nameInput.value = 'Rice';
         qtyInput.value = 1;
-        priceInput.value = 4.99;
+        priceInput.value = 499.00;
         nameInput.focus();
       }
 
@@ -555,35 +596,44 @@
         nameInput.value = name;
         priceInput.value = price;
         qtyInput.value = 1;
-        // optionally focus qty
         qtyInput.focus();
-        // auto add? we let user click add, but we can also add directly if we want.
-        // we do not auto-add to give user control.
       }
 
-      // ---------- init with sample data (like original) ----------
+      // ---------- load sample data with LKR prices ----------
       function loadSampleData() {
         items = [
-          { name: 'Basmati Rice', qty: 2, price: 4.99 },
-          { name: 'Organic Milk 1L', qty: 3, price: 3.25 },
-          { name: 'Cane Sugar 1kg', qty: 1, price: 2.89 },
-          { name: 'Whole Wheat Bread', qty: 2, price: 2.50 },
-          { name: 'Free-range Eggs (12)', qty: 2, price: 4.20 },
-          { name: 'Mixed Vegetables', qty: 1, price: 5.30 },
-          { name: 'Potato Chips (large)', qty: 3, price: 2.15 },
-          { name: 'Dark Chocolate Bar', qty: 2, price: 3.10 },
-          { name: 'Canned Tomatoes', qty: 4, price: 1.40 },
-          { name: 'Greek Yogurt', qty: 2, price: 2.75 }
+          { name: 'Basmati Rice (1kg)', qty: 2, price: 499.00 },
+          { name: 'Organic Milk 1L', qty: 3, price: 325.00 },
+          { name: 'Cane Sugar 1kg', qty: 1, price: 289.00 },
+          { name: 'Whole Wheat Bread', qty: 2, price: 250.00 },
+          { name: 'Free-range Eggs (12)', qty: 2, price: 420.00 },
+          { name: 'Mixed Vegetables', qty: 1, price: 530.00 },
+          { name: 'Potato Chips (large)', qty: 3, price: 215.00 },
+          { name: 'Dark Chocolate Bar', qty: 2, price: 310.00 },
+          { name: 'Canned Tomatoes', qty: 4, price: 140.00 },
+          { name: 'Greek Yogurt', qty: 2, price: 275.00 }
         ];
         render();
       }
 
+      // ---------- DOWNLOAD PDF ----------
+      function downloadPdf() {
+        const element = document.getElementById('receiptWrapper');
+        const opt = {
+          margin:        [0.3, 0.3, 0.3, 0.3],
+          filename:     'GreenMart_receipt_LKR.pdf',
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2, letterRendering: true, useCORS: true, logging: false },
+          jsPDF:        { unit: 'in', format: [3.15, 8.5], orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+      }
+
       // ---------- event binding ----------
       addBtn.addEventListener('click', addItem);
-
       resetBtn.addEventListener('click', resetReceipt);
+      downloadBtn.addEventListener('click', downloadPdf);
 
-      // preset click: fill fields
       presetSpans.forEach(span => {
         span.addEventListener('click', function(e) {
           const name = this.dataset.name;
@@ -594,7 +644,6 @@
         });
       });
 
-      // Enter key on any input -> add
       [nameInput, qtyInput, priceInput].forEach(input => {
         input.addEventListener('keydown', function(e) {
           if (e.key === 'Enter') {
@@ -604,12 +653,7 @@
         });
       });
 
-      // set date / bill / cashier (static but editable via console if needed)
-      // we keep them as is, but you can change them manually.
-      // For demo: we use fixed.
-      // but we allow manual change via DOM if user wants.
-      // (make them contenteditable? but we keep as is)
-      // we'll set fixed.
+      // set date / bill / cashier
       const now = new Date();
       const d = String(now.getDate()).padStart(2,'0');
       const m = String(now.getMonth()+1).padStart(2,'0');
@@ -618,18 +662,15 @@
       dateSpan.textContent = dateStr;
       footerDate.textContent = dateStr;
 
-      // bill number random-ish
       const billNum = '#10' + String(Math.floor(Math.random()*90)+10) + '-' + String(Math.floor(Math.random()*90)+10);
       billSpan.textContent = billNum;
       footerBill.textContent = billNum;
 
-      // cashier
       const cashiers = ['L. Chen', 'M. Johnson', 'A. Rivera', 'S. Kim'];
       const cashier = cashiers[Math.floor(Math.random() * cashiers.length)];
       cashierSpan.textContent = cashier;
       footerCashier.textContent = cashier;
 
-      // load sample
       loadSampleData();
     })();
   </script>
